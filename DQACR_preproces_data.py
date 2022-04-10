@@ -5,7 +5,6 @@ from transformers.tokenization_utils_base import PreTrainedTokenizerBase, Paddin
 from typing import Optional, Union
 import torch
 import numpy as np
-from setproctitle import setproctitle
 from sentence_transformers import SentenceTransformer, util
 import pandas as pd
 from tqdm import tqdm
