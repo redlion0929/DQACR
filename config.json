@@ -1,0 +1,10 @@
+{
+  "model": "DQACR",
+  "save_dirpath": "save/",
+  "load_pthpath": "DQACR",
+  "batch_size": 3,
+  "num_epochs": 3,
+  "weight_decay": 0.01,
+  "learning_rate": 1e-5,
+  "random_seed": 42
+}
