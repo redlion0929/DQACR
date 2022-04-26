@@ -1,5 +1,7 @@
 ## DQACR
 
+[Considering Commonsense in Solving QA: Reading Comprehension with Semantic Search and Continual Learning](https://www.mdpi.com/2076-3417/12/9/4099) 에 accept되었습니다.
+
 Dailogue-based multiple choice QA task에서 Commonsense를 고려하여 문제를 푸는 language model이다.
 
 ## Quick Links
