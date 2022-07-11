@@ -100,17 +100,29 @@ class DQACR(object):
         self.preds = []
         self.y_test = []
 
+        self.correct_question = []
+        self.wrong_question = []
+
         for i in tqdm(range(len(self.test_dataset))):
             accepted_keys = ["input_ids", "label"]
             features = [{k: v for k, v in self.test_dataset[i].items() if k in accepted_keys}]
             X_test = DataCollatorForMultipleChoice(self.tokenizer)(features)
 
             outputs = self.model(**{k: v for k, v in X_test.items()})
-            self.preds.append(torch.max(outputs[1], dim=1)[1])
-            self.y_test.append(X_test['labels'])
+            prediction = torch.max(outputs[1], dim=1)[1]
+            answer = X_test['labels']
+
+            self.preds.append(prediction)
+            self.y_test.append(answer)
+
+            if prediction==answer:
+                self.correct_question.append(i)
+            else:
+                self.wrong_question.append(i)
 
         self.preds = list(map(int, self.preds))
         self.y_test = list(map(int, self.y_test))
+
 
         return classification_report(self.y_test, self.preds, digits=4)
 
@@ -131,4 +143,16 @@ if __name__ == '__main__':
     if parsed_args.mode == 'train':
         dqacr.train()
     else:
-        print(dqacr.inference(args.save_dirpath + args.load_pthpath + '.pth'))
+        display_num = 20
+        result = dqacr.inference(args.save_dirpath + args.load_pthpath + '.pth')
+        print("Classification Result")
+        print(result[0])
+        print("--------------------------------------------------------------")
+        print("Correct Question")
+        print("개수 : ", len(dqacr.correct_question))
+        print(dqacr.correct_question[:display_num])
+        print("--------------------------------------------------------------")
+        print("Wrong Question")
+        print("개수 : ", len(dqacr.wrong_question))
+        print(dqacr.wrong_question[:display_num])
+
